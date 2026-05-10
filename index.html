@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cổng thông tin trường học</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+<header class="topbar">
+    <div class="logo-area">
+        <div class="logo-circle">🏫</div>
+        <div>
+            <h1>TRƯỜNG THCS DEMO</h1>
+            <p>Cổng thông tin điện tử</p>
+        </div>
+    </div>
+
+    <div class="visitor-box">
+        <i class="fas fa-eye"></i>
+        <span id="visitor-count">0</span> lượt xem
+    </div>
+</header>
+
+<section class="hero">
+    <div class="hero-overlay">
+        <h2>CHÀO MỪNG ĐẾN VỚI CỔNG THÔNG TIN NHÀ TRƯỜNG</h2>
+        <p>Cập nhật nhanh chóng các hoạt động, thông báo và tin tức mới nhất.</p>
+    </div>
+</section>
+
+<nav class="menu">
+    <a href="#">Trang chủ</a>
+    <a href="#">Thông báo</a>
+    <a href="#">Hoạt động</a>
+    <a href="#">Đoàn đội</a>
+    <a href="#">Liên hệ</a>
+</nav>
+
+<main class="container">
+
+    <section class="featured-news">
+        <h2><i class="fas fa-star"></i> Tin nổi bật</h2>
+
+        <div class="featured-card" id="featured-news">
+        </div>
+    </section>
+
+    <section class="news-section">
+        <h2><i class="fas fa-newspaper"></i> Tin mới nhất</h2>
+
+        <div class="news-grid" id="news-list">
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+    <p>© 2026 TRƯỜNG THCS DEMO - Cổng thông tin điện tử</p>
+</footer>
+
+<div class="modal hidden" id="news-modal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeModal()">✕</button>
+
+        <div id="modal-body"></div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
