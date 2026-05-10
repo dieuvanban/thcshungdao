@@ -1,5 +1,5 @@
-
 let newsData = [];
+let currentCategory = "all";
 
 async function loadNews(){
 
@@ -10,6 +10,48 @@ async function loadNews(){
     renderFeatured(newsData[0]);
 
     renderNews(newsData);
+
+    setupMenu();
+}
+
+function setupMenu(){
+
+    const menuItems = document.querySelectorAll(".menu a");
+
+    menuItems.forEach(item=>{
+
+        item.addEventListener("click",(e)=>{
+
+            e.preventDefault();
+
+            const category = item.dataset.category;
+
+            currentCategory = category;
+
+            menuItems.forEach(x=>x.classList.remove("active-menu"));
+
+            item.classList.add("active-menu");
+
+            filterNews();
+        });
+
+    });
+}
+
+function filterNews(){
+
+    if(currentCategory === "all"){
+
+        renderNews(newsData);
+
+        return;
+    }
+
+    const filtered = newsData.filter(item=>
+        item.category === currentCategory
+    );
+
+    renderNews(filtered);
 }
 
 function renderFeatured(news){
@@ -28,7 +70,7 @@ function renderNews(list){
 
     const html = list.map((item,index)=>`
 
-        <div class="news-card" onclick="openNews(${index})">
+        <div class="news-card" onclick="openNews(${newsData.indexOf(item)})">
 
             <img src="${item.image}">
 
