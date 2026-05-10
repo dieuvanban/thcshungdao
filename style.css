@@ -243,5 +243,7 @@ body{
     .featured-card img{
         height:260px;
     }
-
+    .active-menu{
+    background:#0d47a1 !important;
+    }
 }
