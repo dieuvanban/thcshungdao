@@ -1,179 +1,39 @@
-let newsData = [];
-let currentCategory = "all";
 
-async function loadNews(){
+/* ===== AUTO GALLERY ===== */
 
-    const res = await fetch("news.json?v=" + Date.now());
+function buildGallery(folder, total = 20){
 
-    newsData = await res.json();
-
-    renderFeatured(newsData[0]);
-
-    renderNews(newsData);
-
-    setupMenu();
-}
-
-function setupMenu(){
-
-    const menuItems = document.querySelectorAll(".menu a");
-
-    menuItems.forEach(item=>{
-
-        item.addEventListener("click",(e)=>{
-
-            e.preventDefault();
-
-            const category = item.dataset.category;
-
-            currentCategory = category;
-
-            menuItems.forEach(x=>x.classList.remove("active-menu"));
-
-            item.classList.add("active-menu");
-
-            filterNews();
-        });
-
-    });
-}
-
-function filterNews(){
-
-    if(currentCategory === "all"){
-
-        renderNews(newsData);
-
-        return;
-    }
-
-    const filtered = newsData.filter(item=>
-        item.category === currentCategory
-    );
-
-    renderNews(filtered);
-}
-
-function renderFeatured(news){
-
-    document.getElementById("featured-news").innerHTML = `
-        <img src="${news.image}">
-
-        <div class="featured-content">
-            <h3>${news.title}</h3>
-            <p>${news.summary}</p>
-        </div>
+    let html = `
+        <div class="auto-gallery">
     `;
-}
 
-function renderNews(list){
+    for(let i = 1; i <= total; i++){
 
-    const html = list.map((item,index)=>`
-
-        <div class="news-card" onclick="openNews(${newsData.indexOf(item)})">
-
-            <img src="${item.image}">
-
-            <div class="news-info">
-
-                <div class="news-date">
-                    ${item.date}
-                </div>
-
-                <div class="news-category">
-                    ${item.category}
-                </div>
-
-                <h3>${item.title}</h3>
-
-                <p>${item.summary}</p>
-
-            </div>
-
-        </div>
-
-    `).join("");
-
-    document.getElementById("news-list").innerHTML = html;
-}
-
-function openNews(index){
-
-    const item = newsData[index];
-
-    let videoHtml = "";
-
-    if(item.youtube){
-
-        videoHtml = `
-            <div class="video-box">
-                <iframe src="https://www.youtube.com/embed/${item.youtube}"
-                        allowfullscreen>
-                </iframe>
-            </div>
+        html += `
+            <img src="images/${folder}/${i}.jpg"
+                 onclick="openImage(this.src)">
         `;
     }
 
-    document.getElementById("modal-body").innerHTML = `
+    html += `</div>`;
 
-        <img src="${item.image}"
-             style="width:100%;max-height:450px;object-fit:cover;">
+    return html;
+}
 
-        <div style="padding:25px">
+function openImage(src){
 
-            <h1 style="margin-bottom:15px;color:#0d47a1">
-                ${item.title}
-            </h1>
+    const viewer = document.getElementById("image-viewer");
 
-            <div style="margin-bottom:20px;color:#666">
-                ${item.date} | ${item.category}
-            </div>
-
-            ${videoHtml}
-
-            <div style="
-                margin-top:25px;
-                line-height:1.8;
-                font-size:17px;
-            ">
-                ${item.content}
-            </div>
-
+    viewer.innerHTML = `
+        <div class="viewer-bg" onclick="closeViewer()">
+            <img src="${src}">
         </div>
-
     `;
 
-    document.getElementById("news-modal")
-        .classList.remove("hidden");
-
-    increaseViews();
+    viewer.style.display = "flex";
 }
 
-function closeModal(){
+function closeViewer(){
 
-    document.getElementById("news-modal")
-        .classList.add("hidden");
+    document.getElementById("image-viewer").style.display = "none";
 }
-
-function increaseViews(){
-
-    let views = localStorage.getItem("school_views") || 0;
-
-    views++;
-
-    localStorage.setItem("school_views", views);
-
-    document.getElementById("visitor-count")
-        .innerText = views;
-}
-
-function loadViews(){
-
-    let views = localStorage.getItem("school_views") || 0;
-
-    document.getElementById("visitor-count")
-        .innerText = views;
-}
-
-loadViews();
-loadNews();
